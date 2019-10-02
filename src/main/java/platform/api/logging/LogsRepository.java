@@ -1,14 +1,14 @@
-package maa.maas.logging;
+package platform.api.logging;
 
-import maa.maas.users.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.domain.*;
+import org.springframework.data.repository.*;
 import org.springframework.stereotype.Repository;
+
+import java.util.*;
 
 @Repository
 public interface LogsRepository extends PagingAndSortingRepository<Log, Long> {
 
-    Page<Log> getByUserOrderByIdDesc(User user, Pageable pageable);
+    Page<Log> getByUuidAndContextOrderByIdDesc(UUID uuid, String context, Pageable pageable);
 
 }

@@ -1,14 +1,14 @@
-package maa.maas.logging;
+package platform.api.logging;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import maa.maas.users.User;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.Range;
+import lombok.*;
+import org.hibernate.annotations.*;
+import org.hibernate.validator.constraints.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.*;
+import java.util.*;
 
 @Data
 @Entity
@@ -22,9 +22,8 @@ public class Log {
     @Column(nullable = false, updatable = false, unique = true)
     public Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private User user;
+    private UUID   uuid;
+    private String context;
 
     @CreationTimestamp
     private LocalDateTime stampCreated;

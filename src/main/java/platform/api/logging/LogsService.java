@@ -1,32 +1,29 @@
-package maa.maas.logging;
+package platform.api.logging;
 
-import maa.maas.roles.RolesService;
-import maa.maas.users.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.*;
+
+import java.util.*;
 
 @Service
 public class LogsService {
 
     private LogsRepository logsRepository;
-    private RolesService rolesService;
 
     @Autowired
-    public LogsService(final LogsRepository logsRepository,
-                       final RolesService rolesService) {
+    public LogsService(final LogsRepository logsRepository) {
 
         this.logsRepository = logsRepository;
-        this.rolesService = rolesService;
 
     }
 
-    public Log create(User user, String title, String description) {
+    public Log createForUser(UUID id, String title, String description) {
 
         Log log = new Log();
 
-        log.setUser(user);
+        log.setUuid(id);
+        log.setContext("USER");
         log.setTitle(title);
         log.setDescription(description);
 
@@ -34,9 +31,9 @@ public class LogsService {
 
     }
 
-    public Page<Log> getByUser(User user, Pageable pageable) {
+    public Page<Log> getByUser(UUID id, Pageable pageable) {
 
-        return logsRepository.getByUserOrderByIdDesc(user, pageable);
+        return logsRepository.getByUuidAndContextOrderByIdDesc(id, "USER", pageable);
 
     }
 
